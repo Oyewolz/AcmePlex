@@ -1,0 +1,61 @@
+<app-header></app-header>
+<div class="payment-page">
+  <div class="back-button">
+    <a routerLink="/tickets/seat-selection"><i class="fas fa-arrow-left"></i></a>
+  </div>
+
+  <h1 class="page-title">Payment</h1>
+
+  <div class="payment-details">
+    <!-- Movie Details -->
+    <div class="movie-details">
+      <img src="assets/movies/red-one.jpg" alt="Red One" />
+      <div class="details">
+        <h2>Red One</h2>
+        <p>Wed, Nov 20 2024</p>
+        <p>12:10 PM</p>
+        <p><strong>ACMEPLEX VIP Cinema</strong></p>
+        <p>University District <i class="fas fa-map-marker-alt"></i></p>
+      </div>
+    </div>
+
+    <!-- Payment Summary -->
+    <div class="summary">
+      <div class="summary-item">
+        <span>Total</span>
+        <span>30.00 CAD</span>
+      </div>
+      <div class="summary-item">
+        <span>Order ID</span>
+        <span>WSL3JKR</span>
+      </div>
+      <div class="summary-item">
+        <span>Seat</span>
+        <span>37, 38</span>
+      </div>
+      <div class="discount">
+        <input type="text" placeholder="Discount code" />
+        <button class="apply-btn">Apply</button>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="payment-methods">
+      <h2>Payment Method</h2>
+      <div class="method">
+        <i class="fas fa-credit-card"></i>
+        <span>Debit Card/Credit Card</span>
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <div class="method">
+        <i class="fas fa-globe"></i>
+        <span>International payments (Visa, Mastercard, Amex)</span>
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Continue Button -->
+  <button class="continue-btn" (click)="proceedToPayment()">Continue</button>
+</div>
+<app-footer></app-footer>

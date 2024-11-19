@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div class="seat-selection">
+  <div class="back-button">
+    <a routerLink="/tickets"><i class="fas fa-arrow-left"></i></a>
+  </div>
+
+  <h1 class="page-title">Seat Preview</h1>
+
+  <div class="movie-details">
+    <img src="https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400" alt="Red One" />
+    <div class="details">
+      <h2>Red One</h2>
+      <p>Wed, Nov 20 2024</p>
+      <p>12:10 PM</p>
+      <p><strong>ACMEPLEX VIP Cinema</strong></p>
+      <p>University District <i class="fas fa-map-marker-alt"></i></p>
+    </div>
+  </div>
+
+  <div class="screen-container">
+    <h3>Screen</h3>
+    <div class="seat-grid">
+      <div 
+        class="seat" 
+        *ngFor="let seat of seats" 
+        [ngClass]="{'occupied': seat.status === 'occupied', 'chosen': seat.status === 'chosen'}"
+        (click)="selectSeat(seat)"
+      >
+        {{ seat.number }}
+      </div>
+    </div>
+    <div class="seat-legend">
+      <span><i class="seat available"></i> Available</span>
+      <span><i class="seat occupied"></i> Occupied</span>
+    </div>
+  </div>
+
+  <button class="buy-ticket-btn" [disabled]="chosenSeats.length === 0" (click)="buyTicket()">Buy Ticket</button>
+</div>
+<app-footer></app-footer>

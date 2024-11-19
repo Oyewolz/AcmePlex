@@ -1,0 +1,15 @@
+.movie-list {
+    padding: 20px;
+    background-color: #121212;
+  
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Responsive grid
+      gap: 20px;
+      justify-content: center;
+  
+      @media (max-width: 600px) {
+        grid-template-columns: repeat(2, 1fr); // Show 2 cards per row on smaller screens
+      }
+    }
+  }

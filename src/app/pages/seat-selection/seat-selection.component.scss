@@ -1,0 +1,165 @@
+.seat-selection {
+    background-color: #121212;
+    color: #fff;
+    padding: 20px;
+  
+    .back-button {
+      margin-bottom: 10px;
+  
+      a {
+        color: #fff;
+        font-size: 1.5rem;
+        text-decoration: none;
+  
+        &:hover {
+          color: #f05454;
+        }
+      }
+    }
+  
+    .page-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+  
+    .movie-details {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 20px;
+  
+      img {
+        width: 120px;
+        border-radius: 8px;
+      }
+  
+      .details {
+        h2 {
+          font-size: 1.8rem;
+          margin: 0;
+        }
+  
+        p {
+          margin: 5px 0;
+  
+          i {
+            margin-left: 5px;
+            color: #f05454;
+          }
+        }
+  
+        strong {
+          font-weight: bold;
+        }
+      }
+    }
+  
+    .screen-container {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex ;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      h3 {
+        font-size: 1.5rem;
+     }
+      
+  
+      .seat-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 5.5px;
+        justify-content: center;
+        margin: 20px 0;
+        display: grid;
+        justify-content: center;
+        width: fit-content;
+  
+        .seat {
+          width: 30px;
+          height: 30px;
+          background-color: #1f1f1f;
+          color: #fff;
+          border: 1px solid #333;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+  
+          &.occupied {
+            background-color: #c12828;
+            cursor: not-allowed;
+          }
+  
+          &.chosen {
+            background-color: #f05454;
+          }
+  
+          &:hover:not(.occupied) {
+            background-color: #d94343;
+          }
+        }
+      }
+  
+      .seat-legend {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+  
+        span {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+  
+          .seat {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+  
+            &.available {
+              background-color: #1f1f1f;
+            }
+  
+            &.occupied {
+              background-color: #333;
+            }
+  
+            &.chosen {
+              background-color: #f05454;
+            }
+          }
+        }
+      }
+    }
+  
+    .buy-ticket-btn {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #f05454;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+  
+      &:hover:enabled {
+        background-color: #d94343;
+      }
+  
+      &:disabled {
+        background-color: #333;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
