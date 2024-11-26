@@ -9,6 +9,7 @@ import { MovieListComponent } from './components/movie-list/movie-list.component
 import { ShowtimeComponent } from './components/showtime/showtime.component';
 import { TheatreSelectionComponent } from './components/theatre-selection/theatre-selection.component';
 import { FormsModule } from '@angular/forms';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 
 
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     MoviePageComponent,
     SeatSelectionComponent,
     ShowtimeComponent,
-    TheatreSelectionComponent
+    TheatreSelectionComponent,
+    CarouselComponent
   ],
   imports: [
     CommonModule,

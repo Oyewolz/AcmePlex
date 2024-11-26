@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MovieDto } from '../../dto';
+import { MovieService } from '../../service/movie.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -7,40 +8,27 @@ import { MovieDto } from '../../dto';
   styleUrls: ['./movie-list.component.scss']
 })
 export class MovieListComponent implements OnInit {
-
-  movies: MovieDto[] = [
-    { title: 'Blade Runner 2049', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5"},
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    { title: 'Naruto: Shippuden', image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',genre:'Action',rating:4.5 , length: "2.5" },
-    
-    // Add other movies here
-  ];
+  
+  
+  movies: MovieDto[] = [];
+  page = 0;
+  size = 10;
 
   @Output() movieSelected = new EventEmitter<any>();
+
+  @Output() loadedMovies = new EventEmitter<any>();
   
-  constructor() { }
+  constructor(private movieService: MovieService) { }
 
   ngOnInit(): void {
+
+    this.movieService.getMovies(this.page, this.size).subscribe((resp) => {
+      this.movies = resp.data.content;
+      this.loadedMovies.emit(this.movies);
+      console.log(this.movies, "sending movies ");
+
+    });
+
   }
 
   onMovieClick(movie: any): void {

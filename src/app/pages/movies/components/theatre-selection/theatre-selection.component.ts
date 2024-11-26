@@ -27,7 +27,7 @@ constructor(private router: Router) { }
 
   getTicket() {
     if (this.selectedTheater) {
-      console.log(`Ticket booked for ${this.movie.title} at ${this.selectedTheater}`);
+      console.log(`Ticket booked for ${this.movie.movieName} at ${this.selectedTheater}`);
       // Navigate to ticket booking or show a confirmation message
       this.router.navigate(['/movie/theatre/showtime'], { state: { movie: this.movie, theater: this.selectedTheater } });
     }

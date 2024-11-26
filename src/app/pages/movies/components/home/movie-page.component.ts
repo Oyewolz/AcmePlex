@@ -9,7 +9,8 @@ import { MovieDto } from '../../dto';
 export class MoviePageComponent implements OnInit {
 
 
-   selectedMovie: MovieDto | null = null;
+  selectedMovie: MovieDto | null = null;
+  movies : MovieDto[] = [];
   constructor() { }
 
   ngOnInit(): void {
@@ -19,4 +20,8 @@ export class MoviePageComponent implements OnInit {
     this.selectedMovie = $event;
 }
 
+handleLoadedMovies($event: any) {
+  this.movies = $event;
+  }
+  
 }

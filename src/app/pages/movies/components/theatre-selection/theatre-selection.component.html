@@ -1,7 +1,7 @@
 <div class="movie-details-card">
     <!-- Movie Poster -->
     <div class="poster">
-      <img [src]="movie.image" [alt]="movie.title" />
+      <img [src]="movie.movieImageUrl" [alt]="movie.movieName" />
       <button
         class="get-ticket-btn"
         [disabled]="!selectedTheater"
@@ -16,15 +16,15 @@
       <ul>
         <li>
           <strong>Length:</strong>
-          <span>{{ movie.length }}</span>
+          <span>{{ movie.movieDuration }}</span>
         </li>
         <li>
           <strong>Rating:</strong>
-          <span>{{ movie.rating }}</span>
+          <span>{{ movie.movieRating }}</span>
         </li>
         <li>
           <strong>Genre:</strong>
-          <span>{{ movie.genre }}</span>
+          <span>{{ movie.movieGenre }}</span>
         </li>
       </ul>
   

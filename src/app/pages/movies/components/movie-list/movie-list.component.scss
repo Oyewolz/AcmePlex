@@ -4,8 +4,8 @@
   
     .movie-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Responsive grid
-      gap: 20px;
+      grid-template-columns: repeat(5, 1fr); // Responsive grid
+      gap: 40px;
       justify-content: center;
   
       @media (max-width: 600px) {

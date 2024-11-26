@@ -1,0 +1,39 @@
+<div class="movie-carousel">
+    <div class="carousel-container">
+      <!-- Carousel Navigation -->
+      <button class="nav-btn prev" (click)="prevMovie()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <!-- Movie Trailer -->
+      <div *ngIf="movies.length > 0" class="carousel-item">
+
+        <iframe 
+          [src]="safeVideoUrl"
+          title="Movie Trailer"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" 
+          allowfullscreen
+        ></iframe>
+        <div class="movie-details">
+          <h2>{{ movies[currentIndex].movieName }}</h2>
+          <p>{{ movies[currentIndex].movieDescription }}</p>
+        </div>
+      </div>
+  
+      <!-- Carousel Navigation -->
+      <button class="nav-btn next" (click)="nextMovie()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  
+    <!-- Carousel Indicators -->
+    <div class="carousel-indicators">
+      <span
+        *ngFor="let movie of movies; let i = index"
+        [class.active]="i === currentIndex"
+        (click)="goToMovie(i)"
+      ></span>
+    </div>
+  </div>
+  
