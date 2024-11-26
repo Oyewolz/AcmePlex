@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoviesRoutingModule } from './movies-routing.module';
-import { LoginComponent } from '../../users/login/login.component';
 import { MoviePageComponent } from './components/home/movie-page.component';
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -17,7 +16,6 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     MovieCardComponent,
     MovieListComponent,
-    LoginComponent,
     MoviePageComponent,
     SeatSelectionComponent,
     ShowtimeComponent,

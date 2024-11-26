@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { TicketBookingComponent } from './component/ticket-booking/ticket-booking.component';
 import { MyTicketsComponent } from './component/ticket/my-tickets.component';
 import { TicketPaymentComponent } from './component/ticket-payment/ticket-payment.component';
 
