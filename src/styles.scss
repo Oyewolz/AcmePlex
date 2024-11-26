@@ -1,25 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  &-header{
+    padding: 20px;
+    background-color: #121212;
+
+  }
+}
+
+.content {
+  flex: 1; // Ensures this section takes up all available space
+  padding: 20px;
+  background-color: #121212; // Adjust as needed
+  color: #fff;
+  min-height: 70vh !important;
+
+}
 
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%; // Ensure the full height is available
-    width: 100%;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-    background-color: #121212; // Default background color for the app
-    color: #fff; // Default text color
-  }
-  
-  * {
-    box-sizing: inherit; // Ensure all elements inherit the box-sizing property
-  }
-  
-  #app-root {
-    display: flex;
-    flex-direction: column;
-    height: 100%; // Root element stretches the full height
-  }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,35 @@
+
+<div class="login-page">
+    <div class="login-container">
+        <!-- Login Form -->
+        <h1>Login</h1>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Email Address"
+          />
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <button class="login-btn" type="submit" [disabled]="loginForm.invalid">
+            LOGIN
+          </button>
+        </form>
+        <p>
+          Don’t have an account? <a routerLink="/auth/sign-up">Create one</a>
+        </p>
+        <hr/>
+    
+        <!-- Promo Section -->
+        <div class="promo-section">
+          <h2>Ready to Join the Club?</h2>
+          <img src="assets/acme.png" alt="Acme Club" />
+          <p>Let’s Connect</p>
+        </div>
+      </div>
+    
+
+</div>

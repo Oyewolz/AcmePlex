@@ -1,13 +1,21 @@
-<header class="header">
-    <nav class="navbar">
+  <header class="header">
+    <div class="header-container">
+      <!-- Logo -->
       <div class="logo">
-        <img src="assets/logo.png" alt="AcmePlex Logo">
-        <span>AcmePlex</span>
+        <img src="assets/logo.png" alt="AcmePlex Logo" />
+
       </div>
-      <ul class="nav-links">
-        <li><a routerLink="/" routerLinkActive="active" >Home</a></li>
-        <li><a routerLink="/ticket" routerLinkActive="active" style="cursor: pointer;">Tickets</a></li>
-      </ul>
-      <button class="account-btn" routerLink="/account">Account</button>
-    </nav>
+  
+      <div class="nav">
+      <!-- Navigation Links -->
+      <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="active">Home</a>
+        <a routerLink="/ticket" routerLinkActive="active">Tickets</a>
+      </nav>
+  
+      <!-- Account Button -->
+      <button class="account-btn "routerLink="/auth/sign-in" >Account</button>
+    </div>
+    </div>
   </header>
+  

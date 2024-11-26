@@ -1,0 +1,49 @@
+
+<div class="sign-up-page">
+  <div class="sign-up-container">
+    <h1>Create an Account</h1>
+
+    <!-- Subscription Options -->
+   
+
+    <!-- Sign-Up Form -->
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <input type="text" formControlName="firstName" placeholder="First Name" />
+        <input type="text" formControlName="lastName" placeholder="Last Name" />
+     
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+      />
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+      />
+      <div class="subscription-options">
+        <button
+          class="option-btn"
+          [class.active]="selectedOption === 'annual'"
+          (click)="selectOption('annual')"
+        >
+          Become a member 
+        </button>
+        <button
+          class="option-btn"
+          [class.active]="selectedOption === 'no-sub'"
+          (click)="selectOption('no-sub')"
+        >
+         No Sub
+        </button>
+      </div>
+      <button class="sign-up-btn" type="submit" [disabled]="signUpForm.invalid">
+        Sign Up
+      </button>
+    </form>
+
+    <p>
+      Already have an account? <a routerLink="/auth/sign-in">Login</a>
+    </p>
+  </div>
+</div>

@@ -7,7 +7,8 @@ import { RestService } from './service/rest.service';
 import { NotificationService } from './service/notification.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { AuthInterceptor } from './service/interceptor/auth.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,8 +16,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ], 
-  exports: [FooterComponent, HeaderComponent],
+  exports: [FooterComponent, HeaderComponent, ReactiveFormsModule],
   providers: [
     RestService, 
     NotificationService, 

@@ -1,71 +1,72 @@
 .header {
-    background-color: #121212;
-    padding: 10px 20px;
+  background-color: #1f1f1f;
+  color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+
+  .header-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #333;
-  
-    .navbar {
+
+    .logo {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: 100%;
-  
-      .logo {
-        display: flex;
-        align-items: center;
-  
-        img {
-          height: 40px;
-          margin-right: 10px;
-        }
-  
-        span {
-          font-size: 1.5rem;
-          color: #fff;
-          font-weight: bold;
-        }
+      gap: 10px;
+
+      img {
+        width: 60px;
+        height: auto;
       }
-  
-      .nav-links {
-        display: flex;
-        list-style: none;
-        margin: 0;
-  
-        li {
-          margin: 0 15px;
-  
-          a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 1rem;
-  
-            &:hover {
-              color: #f05454;
-            }
-  
-            &.active {
-              color: #f05454;
-              font-weight: bold;
-            }
-          }
-        }
-      }
-  
-      .account-btn {
-        background-color: #f05454;
+
+      span {
+        font-size: 1.2rem;
+        font-weight: bold;
         color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  
+      }
+    }
+
+    .nav{
+       display: flex;
+       flex-direction: row;
+       justify-content: space-between;
+       gap: 20px;
+       width: 100%;
+
+       &-links { 
+      display: flex;
+      padding: 10px;
+      gap: 20px;
+
+      a {
+        text-decoration: none;
+        font-size: 1rem;
+        color: #ccc;
+        transition: color 0.3s ease;
+
         &:hover {
-          background-color: #d94343;
+          color: #f05454;
+        }
+
+        &.active {
+          color: #f05454;
         }
       }
     }
+    }
+
+    .account-btn {
+      background-color: #f05454;
+      color: #fff;
+      border: none;
+      border-radius: 211px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #d94343;
+      }
+    }
   }
-  
+}

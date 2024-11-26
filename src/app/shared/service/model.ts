@@ -1,4 +1,4 @@
-interface INotification{
+export interface INotification{
 
     notfiy(message: string): void;
 
