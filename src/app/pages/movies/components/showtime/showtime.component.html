@@ -1,0 +1,56 @@
+
+<div class="ticket-selection">
+  <!-- Back Button -->
+  <div class="back-button">
+    <a routerLink="/movies"><i class="fas fa-arrow-left"></i></a>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Tickets</h1>
+
+  <!-- Ticket Selection Container -->
+  <div class="ticket-container">
+    <!-- Movie and Date Selection -->
+    <div class="selection-row">
+      <div class="selection-item">
+        <label for="movie">Movie</label>
+        <div class="selection-box">
+          <span>Red One</span>
+          <i class="fas fa-film"></i>
+        </div>
+      </div>
+      <div class="selection-item">
+        <label for="date">Date</label>
+        <div class="selection-box">
+          <span>Wed, Nov 20 2024</span>
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="selection-row " >
+
+    <!-- Movie Details -->
+    <div class="movie-details selection-item">
+      <img src="https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400" alt="Red One" />
+      <ul>
+        <li><strong>Length:</strong> 2h 03 min</li>
+        <li><strong>Rating:</strong> 16A</li>
+        <li><strong>Genre:</strong> Action, Adventure</li>
+      </ul>
+    </div>
+
+    <!-- Showtime Selection -->
+    <div class="showtimes selection-item">
+      <div class="times">
+        <button *ngFor="let time of showtimes" (click)="selectShowtime(time)" [class.selected]="time === selectedShowtime">
+          {{ time }}
+        </button>
+      </div>
+      <button class="view-seats-btn" [disabled]="!selectedShowtime" (click)="goToSeatSelection()">
+        <i class="fas fa-chair"></i> View Seats
+      </button>
+    </div>
+    </div>
+  </div>
+</div>

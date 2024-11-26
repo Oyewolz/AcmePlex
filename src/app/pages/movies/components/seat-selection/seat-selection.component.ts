@@ -54,6 +54,6 @@ export class SeatSelectionComponent implements OnInit {
 
   buyTicket() {
     
-    this.router.navigate(['tickets/payment']);
+    this.router.navigate(['ticket/book']);
   }
 }

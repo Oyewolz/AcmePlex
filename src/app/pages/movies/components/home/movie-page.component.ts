@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MovieDto } from '../../dto';
 
 @Component({
   selector: 'app-movie-page',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviePageComponent implements OnInit {
 
+
+   selectedMovie: MovieDto | null = null;
   constructor() { }
 
   ngOnInit(): void {
   }
+  handleMovieSelected($event: any) {
+
+    this.selectedMovie = $event;
+}
 
 }

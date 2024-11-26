@@ -1,0 +1,42 @@
+<div class="movie-details-card">
+    <!-- Movie Poster -->
+    <div class="poster">
+      <img [src]="movie.image" [alt]="movie.title" />
+      <button
+        class="get-ticket-btn"
+        [disabled]="!selectedTheater"
+        (click)="getTicket()"
+      >
+        Get Ticket
+      </button>
+    </div>
+  
+    <!-- Movie Details -->
+    <div class="details">
+      <ul>
+        <li>
+          <strong>Length:</strong>
+          <span>{{ movie.length }}</span>
+        </li>
+        <li>
+          <strong>Rating:</strong>
+          <span>{{ movie.rating }}</span>
+        </li>
+        <li>
+          <strong>Genre:</strong>
+          <span>{{ movie.genre }}</span>
+        </li>
+      </ul>
+  
+      <!-- Theater Dropdown -->
+      <div class="theater-selection">
+        <label for="theater">Select Theater:</label>
+        <select id="theater" [(ngModel)]="selectedTheater">
+          <option *ngFor="let theater of theaters" [value]="theater.id">
+            {{ theater.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  

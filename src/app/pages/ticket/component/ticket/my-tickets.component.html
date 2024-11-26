@@ -1,0 +1,28 @@
+
+<div class="my-tickets">
+  <div class="back-button">
+    <a routerLink="/tickets/payment"><i class="fas fa-arrow-left"></i></a>
+  </div>
+
+  <h1 class="page-title">Tickets</h1>
+
+  <div class="tickets-list">
+    <!-- Ticket Card -->
+    <div class="ticket-card" *ngFor="let ticket of tickets">
+      <div class="ticket-info">
+        <img [src]="ticket.image" [alt]="ticket.movie" />
+        <div class="details">
+          <h2>{{ ticket.movie }}</h2>
+          <p><i class="fas fa-clock"></i> {{ ticket.time }}</p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ ticket.location }}</p>
+        </div>
+      </div>
+      <div class="ticket-actions">
+        <button class="view-receipt-btn">View Receipt</button>
+        <button *ngIf="ticket.cancelable" class="cancel-btn" (click)="cancelTicket(ticket.id)">
+           Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

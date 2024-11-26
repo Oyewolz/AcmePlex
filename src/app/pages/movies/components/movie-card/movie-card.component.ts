@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MovieDto } from '../../dto';
 
 @Component({
   selector: 'app-movie-card',
@@ -7,11 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MovieCardComponent implements OnInit {
 
-  @Input() movie!: { title: string; image: string; description?: string };
+  @Input() movie!: MovieDto;
 
   // Optional: Add any additional methods or logic if needed
   handleMovieClick() {
-    console.log(`Movie clicked: ${this.movie.title}`);
+    
   }
   
   constructor() { }

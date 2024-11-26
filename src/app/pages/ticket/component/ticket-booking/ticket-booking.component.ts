@@ -15,7 +15,7 @@ export class TicketBookingComponent implements OnInit {
   }
 
   viewSeats() {
-    this.router.navigate(['tickets/seat-selection']);
+    this.router.navigate(['movie/seat-selection']);
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ticket-payment',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketPaymentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -15,5 +16,6 @@ export class TicketPaymentComponent implements OnInit {
   proceedToPayment() {
     console.log('Proceeding to payment...');
     // Redirect to payment gateway or confirmation page
+    this.router.navigate(['tickets/my-ticket']);
   }
 }
