@@ -21,23 +21,8 @@
         formControlName="password"
         placeholder="Password"
       />
-      <div class="subscription-options">
-        <button
-          class="option-btn"
-          [class.active]="selectedOption === 'annual'"
-          (click)="selectOption('annual')"
-        >
-          Become a member 
-        </button>
-        <button
-          class="option-btn"
-          [class.active]="selectedOption === 'no-sub'"
-          (click)="selectOption('no-sub')"
-        >
-         No Sub
-        </button>
-      </div>
-      <button class="sign-up-btn" type="submit" [disabled]="signUpForm.invalid">
+     
+     <button class="sign-up-btn" type="submit" [disabled]="signUpForm.invalid">
         Sign Up
       </button>
     </form>
@@ -47,3 +32,5 @@
     </p>
   </div>
 </div>
+
+<app-payment (paymentEvent)="handlePayment($event)"></app-payment>

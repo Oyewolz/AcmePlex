@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MovieService } from '../../service/movie.service';
 import { MovieDto, SeatDto, ShowTimeDto, TheatreDto } from '../../dto';
 import { NotificationService } from '../../../../shared/service/notification.service';
@@ -10,7 +10,7 @@ import { DataService } from '../../../../shared/service/data.service';
   templateUrl: './seat-selection.component.html',
   styleUrls: ['./seat-selection.component.scss']
 })
-export class SeatSelectionComponent  implements OnInit, AfterViewInit {
+export class SeatSelectionComponent  implements OnInit {
 
   movie: MovieDto;
   showtime: ShowTimeDto;
@@ -24,23 +24,7 @@ export class SeatSelectionComponent  implements OnInit, AfterViewInit {
     private dataService: DataService
   ) {
   }
-  ngAfterViewInit(): void {
-    const data = this.dataService.getData();
-    console.log('Data: ', data);
-    if (data) {
-      this.movie = data['movie'];
-      this.showtime = data['showtime'];
-      this.theatre = data['theatre'];
-
-
-      if(!this.movie || !this.showtime || !this.theatre) {
-        this.notification.notfiyError('Something went wrong, please try again');
-        this.router.navigate(['/movie']);
-      }
-
-      this.fetchSeatInformation();
-    }
-  }
+  
   ngOnInit(): void {
 
     const data = this.dataService.getData();
@@ -118,6 +102,11 @@ export class SeatSelectionComponent  implements OnInit, AfterViewInit {
     if (this.chosenSeats.length === 0) {
       this.notification.notfiyError('Please select a seat to continue');
       return;
+    }
+
+    if ((this.seats.length / this.chosenSeats.length) > 0.1) {
+      this.notification.notfiyError('You can only book 10% of the seats');
+      return
     }
 
     this.dataService.setData({ movie: this.movie, showtime: this.showtime, theatre: this.theatre, seats: this.chosenSeats });

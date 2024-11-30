@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/bootstrap';
+
 html,
 body {
   margin: 0;
@@ -26,3 +28,7 @@ body {
 }
 
 
+.toast-body {
+  min-height: 40px;
+  color: #fff;
+}

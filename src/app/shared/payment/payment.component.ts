@@ -101,9 +101,7 @@ export class PaymentComponent implements OnInit {
       };
     }
 
-    console.log(this.addCardForm.errors); 
 
-    console.log(card);
     if (!card) {
       this.notificationService.notfiyError('Please provide a valid card');
       return;
@@ -124,11 +122,15 @@ export class PaymentComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
   }
-  openModel(useCase: string, amount: number): void {
+  openModel(useCase: string, amount: number, email?:string ): void {
     this.useCase = useCase;
     this.amount = amount;
     this.isModalOpen = true;
 
+    if(email){
+      this.addCardForm.get('email').setValue(email);
+      this.addCardForm.get('email').disable();
+    }
   }
 
 }

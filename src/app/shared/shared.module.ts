@@ -12,28 +12,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentComponent } from './payment/payment.component';
 import { DataService } from './service/data.service';
 import { NumericOnlyDirective } from './service/numeric-only.directive';
+import { ToastComponent } from './toast/toast.component';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from './service/toast.service';
 
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent, PaymentComponent, NumericOnlyDirective],
+  declarations: [FooterComponent, HeaderComponent, PaymentComponent, NumericOnlyDirective,],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbToastModule,
+    ToastComponent
   ], 
-  exports: [FooterComponent, HeaderComponent, ReactiveFormsModule, FormsModule, PaymentComponent, NumericOnlyDirective],
+  exports: [FooterComponent, HeaderComponent, ReactiveFormsModule, FormsModule,
+     PaymentComponent, NumericOnlyDirective, NgbToastModule, ToastComponent],
   providers: [
-    RestService, 
-    NotificationService, 
-    LocalStorageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     }, 
-    DataService
   ]
 })
 export class SharedModule { }

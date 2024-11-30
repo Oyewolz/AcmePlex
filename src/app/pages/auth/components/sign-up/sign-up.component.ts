@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../shared/service/notification.service';
+import { PaymentComponent } from '../../../../shared/payment/payment.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,8 +12,11 @@ import { NotificationService } from '../../../../shared/service/notification.ser
 })
 export class SignUpComponent {
 
+
   signUpForm: FormGroup;
   selectedOption: string = 'no-sub'; // Default selection
+  
+  @ViewChild(PaymentComponent) paymentComponent: PaymentComponent;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
     private notificationService: NotificationService
@@ -22,14 +26,8 @@ export class SignUpComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      userType: ['ORDINARY_USER'],
+     
     });
-  }
-
-  // Handle option selection
-  selectOption(option: string) {
-    this.selectedOption = option;
-    this.signUpForm.patchValue({ userType: option === 'annual' ? 'REGISTERED_USER' : 'ORDINARY_USER' });
   }
 
   // Handle form submission
@@ -38,14 +36,14 @@ export class SignUpComponent {
       this.notificationService.notfiyError('Please fill in the form correctly');
       return;
     }
+  
+    this.paymentComponent.openModel("Sign Up", 20, this.signUpForm.value.email);
+  
+  }
 
-    // Add logic for sign-up or subscription processing
-    if (this.selectedOption === 'annual') {
-      // show modal for payment processing 
-      return;
-    }
-
-    this.authService.register(this.signUpForm.value).subscribe(resp => {
+  handlePayment(resp: any) {
+    const userCreationPayload = {...this.signUpForm.value, paymentReference : resp.paymentReference }; 
+    this.authService.register(userCreationPayload).subscribe(resp => {
       this.notificationService.notfiySuccess('Sign Up Successful');
       this.router.navigate(['/auth/sign-in']);
     });

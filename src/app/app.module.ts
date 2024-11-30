@@ -5,17 +5,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { ToastComponent } from "./shared/toast/toast.component";
+import { ToastService } from './shared/service/toast.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, 
-    SharedModule
-  ],  
+    BrowserAnimationsModule,
+    SharedModule,
+],  
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -59,6 +59,7 @@
               type="text"
               formControlName="cardNumber"
               placeholder="Card Number"
+              numericOnly
               [ngClass]="{'invalid': addCardForm.get('cardNumber').invalid && addCardForm.get('cardNumber').touched}"
             
             />
@@ -71,7 +72,7 @@
  
               />
               <input type="text" formControlName="cvv" placeholder="CVV"
-              
+              numericOnly
               [ngClass]="{'invalid': addCardForm.get('cvv').invalid && addCardForm.get('cvv').touched}"
 
               />
