@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log('Error occurred in interceptor', error);
+        
         let errorResponse = {
           code: -1,
           message: 'An error occurred',
@@ -47,7 +47,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error.status >= 400 || error.status < 500) {
           errorResponse = {
             code: -1,
-            message: error.error.description || 'An error occurred please try again or contact support',
+            message: error.error.message || 'An error occurred please try again or contact support',
           };
         }
 

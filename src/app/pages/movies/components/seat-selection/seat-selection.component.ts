@@ -103,8 +103,9 @@ export class SeatSelectionComponent  implements OnInit {
       this.notification.notfiyError('Please select a seat to continue');
       return;
     }
+   
 
-    if ((this.seats.length / this.chosenSeats.length) > 0.1) {
+    if ((this.chosenSeats.length / this.seats.length) > 0.1) {
       this.notification.notfiyError('You can only book 10% of the seats');
       return
     }
