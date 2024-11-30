@@ -62,7 +62,7 @@
       </div> -->
     </div>
   </div>
-  <app-payment></app-payment>
+  <app-payment (paymentEvent)="handlePayment($event)" ></app-payment>
 
   <!-- Continue Button -->
   <button class="continue-btn"  (click)="proceedToPayment()">pay</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { NotificationService } from '../service/notification.service';
 import { AuthService } from '../../pages/auth/service/auth.service';
@@ -15,11 +15,14 @@ import { interval } from 'rxjs';
 export class PaymentComponent implements OnInit {
 
 
+  @Output() paymentEvent: EventEmitter<any> = new EventEmitter();
+
   selectedTab: string = 'card'; // Default tab
   showAddCardForm: boolean = false;
   selectedCardIndex: number | null = null;
   isModalOpen: boolean = false;
   useCase: string = '';
+  amount: number = 0;
 
   savedCards: Card[] = [];
 
@@ -29,17 +32,16 @@ export class PaymentComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService, private paymentService: PaymentService) {
 
-
+      
   }
   ngOnInit(): void {
 
     this.addCardForm = this.fb.group({
-      cardHolderName: ['', Validators.required, Validators.minLength(3)],
-      cardNumber: ['', [Validators.required, Validators.minLength(12)]],
-      expiryDate: ['', Validators.required, expiryDateValidator()],
-      cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      cardHolderName: ['', [Validators.required, Validators.minLength(3)]],
+      cardNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(19), Validators.pattern('^[0-9]*$')]],
+      expiryDate: ['', [Validators.required, expiryDateValidator()]],
+      cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern('^[0-9]*$')]],
       email: ['', [Validators.required, Validators.email]],
-
     });
 
     this.retrieveSavedCards();
@@ -95,7 +97,7 @@ export class PaymentComponent implements OnInit {
     if (!card && this.addCardForm.valid) {
     
       card = {
-        ...this.addCardForm.value, useCase: this.useCase
+        ...this.addCardForm.value, useCase: this.useCase, amount:  this.amount
       };
     }
 
@@ -112,9 +114,7 @@ export class PaymentComponent implements OnInit {
         this.notificationService.notfiySuccess('Payment Successful');
         this.closeModal();
 
-        interval(2000).subscribe(() => {
-          this.router.navigate(['/']);
-        });
+        this.paymentEvent.emit({ ...resp.data, useCase: this.useCase });
 
       });
 
@@ -124,9 +124,11 @@ export class PaymentComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
   }
-  openModel(useCase: string) {
+  openModel(useCase: string, amount: number): void {
     this.useCase = useCase;
+    this.amount = amount;
     this.isModalOpen = true;
+
   }
 
 }

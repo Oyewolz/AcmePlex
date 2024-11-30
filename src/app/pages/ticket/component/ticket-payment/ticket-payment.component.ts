@@ -5,6 +5,8 @@ import { NotificationService } from '../../../../shared/service/notification.ser
 import { MovieDto, SeatDto, ShowTimeDto, TheatreDto } from '../../../movies/dto';
 import { PaymentService } from '../../service/payment.service';
 import { PaymentComponent } from '../../../../shared/payment/payment.component';
+import { TicketService } from '../../service/ticket.service';
+import { TicketReq } from '../../model.dto';
 
 @Component({
   selector: 'app-ticket-payment',
@@ -12,6 +14,7 @@ import { PaymentComponent } from '../../../../shared/payment/payment.component';
   styleUrls: ['./ticket-payment.component.scss']
 })
 export class TicketPaymentComponent implements OnInit {
+
 
 
   movie: MovieDto;
@@ -29,6 +32,7 @@ export class TicketPaymentComponent implements OnInit {
   constructor(private router: Router, 
     private dataService: DataService, 
     private notification: NotificationService, 
+    private ticektService: TicketService,
    private payment: PaymentService) { }
 
   ngOnInit(): void {
@@ -55,7 +59,7 @@ export class TicketPaymentComponent implements OnInit {
 
   proceedToPayment() {
     
-    this.paymentComponent.openModel('TICKET');
+    this.paymentComponent.openModel('TICKET', this.movie.moviePrice * this.chosenSeats.length );
 
   }
 
@@ -80,5 +84,27 @@ export class TicketPaymentComponent implements OnInit {
 
     );
   }
+
+  handlePayment($event: any) {
+
+    const ticket:TicketReq  = {
+      theatreId: this.theatre.id,
+      showTimeId: this.showtime.id,
+      seatIds: this.chosenSeats.map(seat => seat.id),
+      refundCode: this.discountCode,
+      email: $event.email,
+      price: this.movie.moviePrice * this.chosenSeats.length,
+      paymentReference: $event.reference
+    
+    }
+
+    this.ticektService.createTicket(ticket)  
+    .subscribe(resp => {
+      this.notification.notfiySuccess('Ticket booked successfully');
+      this.router.navigate(['/']);
+    });
+  }
+  
+
 
 }
