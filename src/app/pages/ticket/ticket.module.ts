@@ -4,8 +4,7 @@ import { TicketRoutingModule } from './ticket-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { MyTicketsComponent } from './component/ticket/my-tickets.component';
 import { TicketPaymentComponent } from './component/ticket-payment/ticket-payment.component';
-
-
+import { PaymentService } from './service/payment.service';
 
 @NgModule({
   declarations: [ MyTicketsComponent, TicketPaymentComponent ],
@@ -13,6 +12,7 @@ import { TicketPaymentComponent } from './component/ticket-payment/ticket-paymen
     CommonModule,
     TicketRoutingModule,
     SharedModule
-  ]
+  ], 
+  providers: [PaymentService]
 })
 export class TicketModule { }

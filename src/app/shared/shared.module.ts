@@ -8,20 +8,22 @@ import { NotificationService } from './service/notification.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { AuthInterceptor } from './service/interceptor/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentComponent } from './payment/payment.component';
 import { DataService } from './service/data.service';
+import { NumericOnlyDirective } from './service/numeric-only.directive';
 
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent, PaymentComponent],
+  declarations: [FooterComponent, HeaderComponent, PaymentComponent, NumericOnlyDirective],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ], 
-  exports: [FooterComponent, HeaderComponent, ReactiveFormsModule],
+  exports: [FooterComponent, HeaderComponent, ReactiveFormsModule, FormsModule, PaymentComponent, NumericOnlyDirective],
   providers: [
     RestService, 
     NotificationService, 

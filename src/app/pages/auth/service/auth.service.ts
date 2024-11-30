@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { RestService } from '../../../shared/service/rest.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { LocalStorageService } from '../../../shared/service/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private restService: RestService) { }
+
+
+
+  constructor(private restService: RestService, private localStorageService: LocalStorageService) { }
 
 
 
@@ -23,5 +27,8 @@ export class AuthService {
   }
 
 
+  isUserLoggedIn() {
+   return this.localStorageService.get('token') ? true : false;
+  }
 
 }

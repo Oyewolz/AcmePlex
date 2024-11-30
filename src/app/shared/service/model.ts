@@ -8,3 +8,14 @@ export interface INotification{
     
 
 }
+
+export class Card {
+    id: number;
+    cardType: string;
+    cardNumber: string;
+    cardHolderName: string;
+    expiryDate: string;
+    cvv: string;
+    useCase: string;
+  }
+  

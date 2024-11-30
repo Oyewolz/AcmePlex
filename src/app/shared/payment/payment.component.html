@@ -1,4 +1,4 @@
-<div class="modal-overlay" (click)="closeModal()">
+<div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
     <div class="modal-container" (click)="$event.stopPropagation()">
       <h2>Payment Methods</h2>
       <div class="payment-tabs">
@@ -33,10 +33,10 @@
               [checked]="selectedCardIndex === i"
               (change)="selectCard(i)"
             />
-            <img [src]="card.logo" alt="Card Logo" />
+            <img src="assets/card.png" alt="Card Logo" />
             <div>
-              <p>{{ card.type }}</p>
-              <small>{{ card.details }}</small>
+              <p>{{ card.cardType }}</p>
+              <small>{{ card.cardNumber }}</small>
             </div>
           </label>
         </div>
@@ -51,29 +51,40 @@
           <form [formGroup]="addCardForm" (ngSubmit)="addCard()">
             <input
               type="text"
-              formControlName="nameOnCard"
+              formControlName="cardHolderName"
               placeholder="Name on Card"
+              [ngClass]="{'invalid': addCardForm.get('cardHolderName').invalid && addCardForm.get('cardHolderName').touched}"
             />
             <input
               type="text"
               formControlName="cardNumber"
               placeholder="Card Number"
+              [ngClass]="{'invalid': addCardForm.get('cardNumber').invalid && addCardForm.get('cardNumber').touched}"
+            
             />
             <div class="row">
               <input
                 type="text"
                 formControlName="expiryDate"
-                placeholder="MM/YY"
+                placeholder="MM/YYYY"
+                [ngClass]="{'invalid': addCardForm.get('expiryDate').invalid && addCardForm.get('expiryDate').touched} "
+ 
               />
-              <input type="text" formControlName="cvv" placeholder="CVV" />
+              <input type="text" formControlName="cvv" placeholder="CVV"
+              
+              [ngClass]="{'invalid': addCardForm.get('cvv').invalid && addCardForm.get('cvv').touched}"
+
+              />
             </div>
-            <label>
-              <input type="checkbox" formControlName="saveCard" />
-              Save this card
-            </label>
-            <button type="submit" class="submit-btn" [disabled]="addCardForm.invalid">
-              Save Card
-            </button>
+
+            <input
+              type="text"
+              formControlName="email"
+              placeholder="email"
+              [ngClass]="{'invalid': addCardForm.get('email').invalid && addCardForm.get('email').touched}"
+
+            />
+            
           </form>
         </div>
       </div>
@@ -88,7 +99,7 @@
         [disabled]="!selectedCardIndex && !showAddCardForm"
         (click)="proceedToNextStep()"
       >
-        NEXT
+        Pay
       </button>
     </div>
   </div>

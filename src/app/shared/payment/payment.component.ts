@@ -1,40 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { NotificationService } from '../service/notification.service';
+import { AuthService } from '../../pages/auth/service/auth.service';
+import { PaymentService } from '../../pages/ticket/service/payment.service';
+import { Card } from '../service/model';
+import { Router } from '@angular/router';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent {
+export class PaymentComponent implements OnInit {
+
 
   selectedTab: string = 'card'; // Default tab
   showAddCardForm: boolean = false;
   selectedCardIndex: number | null = null;
+  isModalOpen: boolean = false;
+  useCase: string = '';
 
-  savedCards = [
-    {
-      logo: 'assets/mastercard-logo.png',
-      type: 'Mastercard',
-      details: 'Debit ****4320',
-    },
-    {
-      logo: 'assets/visa-logo.png',
-      type: 'Visa',
-      details: 'Credit Card ****7568',
-    },
-  ];
+  savedCards: Card[] = [];
 
   addCardForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder,
+    private notificationService: NotificationService,
+    private authService: AuthService, private paymentService: PaymentService) {
+
+
+  }
+  ngOnInit(): void {
+
     this.addCardForm = this.fb.group({
-      nameOnCard: ['', Validators.required],
-      cardNumber: ['', [Validators.required, Validators.minLength(16)]],
-      expiryDate: ['', Validators.required],
-      cvv: ['', [Validators.required, Validators.minLength(3)]],
-      saveCard: [false],
+      cardHolderName: ['', Validators.required, Validators.minLength(3)],
+      cardNumber: ['', [Validators.required, Validators.minLength(12)]],
+      expiryDate: ['', Validators.required, expiryDateValidator()],
+      cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+
     });
+
+    this.retrieveSavedCards();
+
+  }
+  retrieveSavedCards() {
+
+    if (!this.authService.isUserLoggedIn()) {
+      return;
+    }
+
+    this.paymentService.getSavedCards()
+      .subscribe(resp => {
+        this.savedCards = resp.data;
+      });
   }
 
   selectTab(tab: string): void {
@@ -46,33 +66,74 @@ export class PaymentComponent {
   }
 
   addCard(): void {
-    if (this.addCardForm.valid) {
-      const newCard = {
-        logo: 'assets/visa-logo.png', // Placeholder, replace with actual card type detection
-        type: 'New Card',
-        details: `Card ****${this.addCardForm.value.cardNumber.slice(-4)}`,
-      };
-
-      this.savedCards.push(newCard);
-      this.selectedCardIndex = this.savedCards.length - 1; // Select the new card
-      this.showAddCardForm = false;
-      this.addCardForm.reset();
+    if (!this.addCardForm.valid) {
+      this.notificationService.notfiyError('Please fill in the form correctly');
+      return;
     }
+
+
+    const newCard: Card = this.addCardForm.value;
+
+    this.savedCards.push(newCard);
+    this.selectedCardIndex = this.savedCards.length - 1; // Select the new card
+    this.showAddCardForm = false;
+    this.addCardForm.reset();
   }
+
 
   selectCard(index: number): void {
     this.selectedCardIndex = index;
   }
 
   proceedToNextStep(): void {
-    if (this.selectedCardIndex !== null) {
-      console.log('Proceeding with selected card:', this.savedCards[this.selectedCardIndex]);
-    } else {
-      console.log('Adding a new card:', this.addCardForm.value);
+    let card;
+    if (this.selectedCardIndex === null) {
+      card = this.savedCards[this.selectedCardIndex];
     }
+
+    console.log(this.addCardForm.valid, this.addCardForm.value);
+    if (!card && this.addCardForm.valid) {
+    
+      card = {
+        ...this.addCardForm.value, useCase: this.useCase
+      };
+    }
+
+    console.log(this.addCardForm.errors); 
+
+    console.log(card);
+    if (!card) {
+      this.notificationService.notfiyError('Please provide a valid card');
+      return;
+    }
+
+    this.paymentService.makePayment(card)
+      .subscribe(resp => {
+        this.notificationService.notfiySuccess('Payment Successful');
+        this.closeModal();
+
+        interval(2000).subscribe(() => {
+          this.router.navigate(['/']);
+        });
+
+      });
+
+
   }
 
   closeModal(): void {
-    console.log('Close Modal');
+    this.isModalOpen = false;
   }
+  openModel(useCase: string) {
+    this.useCase = useCase;
+    this.isModalOpen = true;
+  }
+
+}
+// Custom validator for expiry date
+export function expiryDateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const valid = /^(0[1-9]|1[0-2])\/\d{4}$/.test(control.value);
+    return valid ? null : { 'expiryDateInvalid': { value: control.value } };
+  };
 }
