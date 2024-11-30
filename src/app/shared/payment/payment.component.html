@@ -1,0 +1,94 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <h2>Payment Methods</h2>
+      <div class="payment-tabs">
+        <button
+          class="tab"
+          [class.active]="selectedTab === 'card'"
+          (click)="selectTab('card')"
+        >
+          Credit/Debit Card
+        </button>
+        <button
+          class="tab"
+          [class.active]="selectedTab === 'paypal'"
+          (click)="selectTab('paypal')"
+        >
+          PayPal
+        </button>
+      </div>
+  
+      <!-- Credit/Debit Card Tab -->
+      <div *ngIf="selectedTab === 'card'" class="card-payment">
+        <!-- Saved Cards -->
+        <div class="saved-cards">
+          <label
+            *ngFor="let card of savedCards; let i = index"
+            class="saved-card"
+          >
+            <input
+              type="radio"
+              name="selectedCard"
+              [value]="card"
+              [checked]="selectedCardIndex === i"
+              (change)="selectCard(i)"
+            />
+            <img [src]="card.logo" alt="Card Logo" />
+            <div>
+              <p>{{ card.type }}</p>
+              <small>{{ card.details }}</small>
+            </div>
+          </label>
+        </div>
+  
+        <!-- Add New Card -->
+        <button class="add-new-card-btn" (click)="toggleAddCard()">
+          + Add new card
+        </button>
+  
+        <!-- Add Card Form -->
+        <div *ngIf="showAddCardForm" class="add-card-form">
+          <form [formGroup]="addCardForm" (ngSubmit)="addCard()">
+            <input
+              type="text"
+              formControlName="nameOnCard"
+              placeholder="Name on Card"
+            />
+            <input
+              type="text"
+              formControlName="cardNumber"
+              placeholder="Card Number"
+            />
+            <div class="row">
+              <input
+                type="text"
+                formControlName="expiryDate"
+                placeholder="MM/YY"
+              />
+              <input type="text" formControlName="cvv" placeholder="CVV" />
+            </div>
+            <label>
+              <input type="checkbox" formControlName="saveCard" />
+              Save this card
+            </label>
+            <button type="submit" class="submit-btn" [disabled]="addCardForm.invalid">
+              Save Card
+            </button>
+          </form>
+        </div>
+      </div>
+  
+      <!-- PayPal Tab -->
+      <div *ngIf="selectedTab === 'paypal'" class="paypal-payment">
+        <p>Coming soon...</p>
+      </div>
+  
+      <button
+        class="next-btn"
+        [disabled]="!selectedCardIndex && !showAddCardForm"
+        (click)="proceedToNextStep()"
+      >
+        NEXT
+      </button>
+    </div>
+  </div>

@@ -1,59 +1,128 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MovieService } from '../../service/movie.service';
+import { MovieDto, SeatDto, ShowTimeDto, TheatreDto } from '../../dto';
+import { NotificationService } from '../../../../shared/service/notification.service';
+import { DataService } from '../../../../shared/service/data.service';
 
 @Component({
   selector: 'app-seat-selection',
   templateUrl: './seat-selection.component.html',
   styleUrls: ['./seat-selection.component.scss']
 })
-export class SeatSelectionComponent implements OnInit {
+export class SeatSelectionComponent  implements OnInit, AfterViewInit {
 
-  seats = [
-    { number: 'A1', status: 'available' },
-    { number: 'A2', status: 'occupied' },
-    { number: 'A3', status: 'available' },
-    { number: 'A4', status: 'occupied' },
-    { number: 'A5', status: 'available' },
-    { number: 'A6', status: 'available' },
-    { number: 'A7', status: 'chosen' },
-    { number: 'A8', status: 'available' },
-    { number: 'A9', status: 'occupied' },
-    { number: 'A10', status: 'available' },
-    { number: 'B1', status: 'available' },
-    { number: 'B2', status: 'occupied' },
-    { number: 'B3', status: 'available' },
-    { number: 'B4', status: 'occupied' },
-    { number: 'B5', status: 'available' },
-    { number: 'B6', status: 'available' },
-    { number: 'B7', status: 'chosen' },
-    { number: 'B8', status: 'available' },
-    { number: 'B9', status: 'occupied' },
-    { number: 'B10', status: 'available' },
-    // Repeat for rows B, C, D, etc.
-  ];
+  movie: MovieDto;
+  showtime: ShowTimeDto;
+  theatre: TheatreDto;
+  seats: SeatDto[] = [];
+  chosenSeats: SeatDto[] = [];
+  seatRows: { [key: string]: SeatDto[] } = {};
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private movieService: MovieService, private notification: NotificationService, 
+    private dataService: DataService
+  ) {
+  }
+  ngAfterViewInit(): void {
+    const data = this.dataService.getData();
+    console.log('Data: ', data);
+    if (data) {
+      this.movie = data['movie'];
+      this.showtime = data['showtime'];
+      this.theatre = data['theatre'];
 
+
+      if(!this.movie || !this.showtime || !this.theatre) {
+        this.notification.notfiyError('Something went wrong, please try again');
+        this.router.navigate(['/movie']);
+      }
+
+      this.fetchSeatInformation();
+    }
+  }
   ngOnInit(): void {
-   
-  }    
 
-  chosenSeats: string[] = [];
+    const data = this.dataService.getData();
+    console.log('Data: ', data);
+    if (data) {
+      this.movie = data['movie'];
+      this.showtime = data['showtime'];
+      this.theatre = data['theatre'];
 
-  selectSeat(seat: { number: string; status: string }) {
-    if (seat.status === 'occupied') return;
 
-    if (seat.status === 'chosen') {
-      seat.status = 'available';
-      this.chosenSeats = this.chosenSeats.filter((s) => s !== seat.number);
-    } else {
-      seat.status = 'chosen';
-      this.chosenSeats.push(seat.number);
+      if(!this.movie || !this.showtime || !this.theatre) {
+        this.notification.notfiyError('Something went wrong, please try again');
+        this.router.navigate(['/movie']);
+      }
+
+      this.fetchSeatInformation();
     }
   }
 
+
+
+
+  fetchSeatInformation() {
+
+
+    this.movieService.getSeatsByShowTimeId(this.showtime.id)
+      .subscribe((resp) => {
+
+        if (!resp.data) {
+          return;
+        }
+
+        const allSeatsTaken = this.seats.every(seat => seat.seatTaken);
+        if (allSeatsTaken) {
+          this.notification.notfiyError('All seats have been taken');
+        }
+
+        this.seats = resp.data;
+
+        this.seatRows = this.seats.reduce((acc, seat) => {
+          if (!acc[seat.seatRow]) {
+            acc[seat.seatRow] = [];
+          }
+          acc[seat.seatRow].push(seat);
+          return acc;
+        }, {} as { [key: string]: SeatDto[] });
+
+      }
+      );
+  }
+
+
+
+  selectSeat(seat: SeatDto) {
+    if (seat.seatTaken) {
+      this.notification.notfiyError('Seat has already been taken');
+      return;
+    }
+
+    if (seat.selected) {
+      seat.selected = false;
+      const index = this.chosenSeats.findIndex(s => s.id === seat.id);
+      this.chosenSeats.splice(index, 1);
+      return;
+    }
+
+    seat.selected = true;
+
+    this.chosenSeats.push(seat);
+  }
+
+
   buyTicket() {
-    
+
+    if (this.chosenSeats.length === 0) {
+      this.notification.notfiyError('Please select a seat to continue');
+      return;
+    }
+
+    this.dataService.setData({ movie: this.movie, showtime: this.showtime, theatre: this.theatre, seats: this.chosenSeats });
+
     this.router.navigate(['ticket/book']);
   }
+
 }

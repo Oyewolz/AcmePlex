@@ -1,24 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../../../../shared/service/notification.service';
+import { MovieService } from '../../service/movie.service';
+import { MovieDto, ShowTimeDto } from '../../dto';
+import { DataService } from '../../../../shared/service/data.service';
 
 @Component({
   selector: 'app-ticket-selection',
   templateUrl: './showtime.component.html',
   styleUrls: ['./showtime.component.scss'],
 })
-export class ShowtimeComponent {
-  showtimes: string[] = ['12:10 PM', '2:15 PM', '4:10 PM', '7:00 PM', '9:10 PM', '11:00 PM'];
-  selectedShowtime: string | null = null;
+export class ShowtimeComponent implements OnInit {
+  page: number = 0;
+  size: number = 100;
+  showtimes: ShowTimeDto[] = [];
+  selectedShowtime: ShowTimeDto; 
+  movie: MovieDto;
+  theatreId: number;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private route: ActivatedRoute,
+     private notificationService: NotificationService, 
+     private dataService: DataService, 
+     private movieService: MovieService ) {
+     }
 
-  selectShowtime(time: string) {
-    this.selectedShowtime = time;
+  ngOnInit(): void {
+  
+    const data  = this.dataService.getData();
+
+    if (data) {
+      console.log("navigation -= what identified 2 ", data);
+      this.movie = data['movie'];
+      this.theatreId = data['theatre'];
+      this.fetchShowtimes();
+      
+    }else{
+      this.notificationService.notfiyError('Something went wrong, please try again');
+      this.router.navigate(['/']);
+    }
+   
+  }
+
+  fetchShowtimes() {
+    this.movieService.getShowTimesByMovieIdAndTheatreId(this.movie.id, this.theatreId, this.page, this.size)
+    .subscribe((resp) => {
+      if (!resp.data) {
+        this.notificationService.notfiyError('No showtimes found for this movie');
+        return;
+      }
+      this.showtimes = resp.data;
+    } ); 
+  }
+
+
+
+  selectShowtime(showTime: ShowTimeDto) {
+    this.selectedShowtime = showTime;
   }
 
   goToSeatSelection() {
     if (this.selectedShowtime) {
-      this.router.navigate(['movie/theatre/showtime/seat'], { state: { showtime: this.selectedShowtime } });
+      this.dataService.setData({ movie: this.movie, showtime: this.selectedShowtime, theatre: this.theatreId });
+      this.router.navigate(['movie/theatre/showtime/seat']);
     }
   }
 }

@@ -4,7 +4,7 @@
       <img [src]="movie.movieImageUrl" [alt]="movie.movieName" />
       <button
         class="get-ticket-btn"
-        [disabled]="!selectedTheater"
+        [disabled]="!selectedTheatre"
         (click)="getTicket()"
       >
         Get Ticket
@@ -31,8 +31,8 @@
       <!-- Theater Dropdown -->
       <div class="theater-selection">
         <label for="theater">Select Theater:</label>
-        <select id="theater" [(ngModel)]="selectedTheater">
-          <option *ngFor="let theater of theaters" [value]="theater.id">
+        <select id="theater" [(ngModel)]="selectedTheatre">
+          <option *ngFor="let theater of theatres" [value]="theater.id">
             {{ theater.name }}
           </option>
         </select>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieDto } from '../../dto';
+import { DataService } from '../../../../shared/service/data.service';
 
 @Component({
   selector: 'app-movie-page',
@@ -11,9 +12,10 @@ export class MoviePageComponent implements OnInit {
 
   selectedMovie: MovieDto | null = null;
   movies : MovieDto[] = [];
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+    this.dataService.setData(null);
   }
   handleMovieSelected($event: any) {
 

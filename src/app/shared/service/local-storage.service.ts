@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LocalStorageService {
+  setItem(arg0: string, arg1: string) {
+    throw new Error('Method not implemented.');
+  }
 
 
  public readonly AUTH_TOKEN_KEY = 'authToken';

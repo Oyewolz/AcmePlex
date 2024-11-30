@@ -6,7 +6,7 @@
   </div>
 
   <!-- Page Title -->
-  <h1 class="page-title">Tickets</h1>
+  <h1 class="page-title">Show Time</h1>
 
   <!-- Ticket Selection Container -->
   <div class="ticket-container">
@@ -15,12 +15,12 @@
       <div class="selection-item">
         <label for="movie">Movie</label>
         <div class="selection-box">
-          <span>Red One</span>
+          <span>{{movie.movieName}}</span>
           <i class="fas fa-film"></i>
         </div>
       </div>
       <div class="selection-item">
-        <label for="date">Date</label>
+        <label for="date">From Date</label>
         <div class="selection-box">
           <span>Wed, Nov 20 2024</span>
           <i class="fas fa-calendar-alt"></i>
@@ -32,19 +32,19 @@
 
     <!-- Movie Details -->
     <div class="movie-details selection-item">
-      <img src="https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400" alt="Red One" />
+      <img [src]="movie.movieImageUrl" [alt]="movie.movieName" />
       <ul>
-        <li><strong>Length:</strong> 2h 03 min</li>
-        <li><strong>Rating:</strong> 16A</li>
-        <li><strong>Genre:</strong> Action, Adventure</li>
+        <li><strong>Length:</strong> {{movie.movieDuration | duration }}</li>
+        <li><strong>Rating:</strong> {{movie.movieRating}}</li>
+        <li><strong>Genre:</strong> {{movie.movieGenre}}</li>
       </ul>
     </div>
 
     <!-- Showtime Selection -->
     <div class="showtimes selection-item">
       <div class="times">
-        <button *ngFor="let time of showtimes" (click)="selectShowtime(time)" [class.selected]="time === selectedShowtime">
-          {{ time }}
+        <button *ngFor="let time of showtimes" (click)="selectShowtime(time)" [class.selected]="time.id === selectedShowtime?.id">
+          {{ time.startTime | date: 'dd:MM:YYYY h:mm a' }}
         </button>
       </div>
       <button class="view-seats-btn" [disabled]="!selectedShowtime" (click)="goToSeatSelection()">

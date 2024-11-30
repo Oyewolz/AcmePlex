@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class MovieService {
 
+
   constructor(private restService: RestService) { }
 
 
@@ -29,13 +30,22 @@ export class MovieService {
   }
 
 
-  getShowTimesByMovieIdAndTheatreId(id: number, theatreId: number): any {
+  getShowTimesByMovieIdAndTheatreId(id: number, theatreId: number, page:number = 0 , size: number = 100): Observable<any> {
     //TODO show time should not be pagenated 
     const url = environment.apiUrl + `/theatre/show-times?movieId=${id}&theatreId=${theatreId}`;
     return this.restService.get(url);
   }
 
-
+  getTheaters(id: number, size: number, page: number): Observable<any> {
+    const url = environment.apiUrl + `/theatre/fetch?movieId=${id}&size=${size}&page=${page}`;
+    return this.restService.get(url);
+  }
+ 
+  getSeatsByShowTimeId(id: number,size: number = 10000, page: number = 0 ): Observable<any> {
+    const url = environment.apiUrl + `/theatre-seat/seat-distribution?showtimeId=${id}&size=${size}&page=${page}`;
+    return this.restService.get(url);
+  }
+  
   
 
 }

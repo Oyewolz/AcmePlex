@@ -9,10 +9,12 @@ import { LocalStorageService } from './service/local-storage.service';
 import { AuthInterceptor } from './service/interceptor/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PaymentComponent } from './payment/payment.component';
+import { DataService } from './service/data.service';
 
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent],
+  declarations: [FooterComponent, HeaderComponent, PaymentComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -28,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    }, 
+    DataService
   ]
 })
 export class SharedModule { }

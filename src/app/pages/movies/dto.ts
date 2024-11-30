@@ -14,4 +14,19 @@ export class MovieDto {
 export class TheatreDto {
     id: number = 0;
     name: string = '';
+    location: string = '';
+}
+
+export class ShowTimeDto{
+    id: number = 0;
+    startTime: string = '';
+}
+
+export class SeatDto {
+    id: number = 0;
+    seatNumber: string = '';
+    seat: string = '';
+    seatRow: string = '';
+    seatTaken: boolean = false;
+    selected: boolean = false;
 }

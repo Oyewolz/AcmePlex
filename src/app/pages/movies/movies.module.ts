@@ -10,6 +10,7 @@ import { ShowtimeComponent } from './components/showtime/showtime.component';
 import { TheatreSelectionComponent } from './components/theatre-selection/theatre-selection.component';
 import { FormsModule } from '@angular/forms';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { DurationPipe } from './service/duration.pipe';
 
 
 
@@ -21,7 +22,8 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     SeatSelectionComponent,
     ShowtimeComponent,
     TheatreSelectionComponent,
-    CarouselComponent
+    CarouselComponent,
+    DurationPipe
   ],
   imports: [
     CommonModule,
