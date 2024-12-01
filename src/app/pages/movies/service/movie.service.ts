@@ -45,8 +45,8 @@ export class MovieService {
     return this.restService.get(url);
   }
  
-  getSeatsByShowTimeId(id: number,size: number = 10000, page: number = 0 ): Observable<any> {
-    const url = environment.apiUrl + `/theatre-seat/seat-distribution?showtimeId=${id}&size=${size}&page=${page}`;
+  getSeatsByShowTimeId(id: number, theatreId : number , size: number = 10000, page: number = 0 ): Observable<any> {
+    const url = environment.apiUrl + `/theatre-seat/seat-distribution?showtimeId=${id}&size=${size}&page=${page}&theatreId=${theatreId}`;
     return this.restService.get(url);
   }
   

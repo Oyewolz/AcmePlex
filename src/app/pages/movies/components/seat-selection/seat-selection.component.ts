@@ -50,7 +50,7 @@ export class SeatSelectionComponent  implements OnInit {
   fetchSeatInformation() {
 
 
-    this.movieService.getSeatsByShowTimeId(this.showtime.id)
+    this.movieService.getSeatsByShowTimeId(this.showtime.id , this.theatre.id)
       .subscribe((resp) => {
 
         if (!resp.data) {

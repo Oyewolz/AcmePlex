@@ -21,9 +21,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const authToken = this.storageService.get(this.storageService.AUTH_TOKEN_KEY);
     
     if (authToken) {
+      console.log('authToken Test', authToken);
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${authToken}`
+          'Authorization': `Bearer ${authToken}`
         }
       });
     }
@@ -31,20 +32,20 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error) => {
         
+        console.log('error', error);
         let errorResponse = {
           code: -1,
           message: 'An error occurred',
         }; 
         
-        if(error.status === 401 || error.status === 403) {
+        if(error.status === 401 || error.status === 403 || error.status === 0) {
           errorResponse = {
             code: -1,
             message: 'You are not authorized to perform this action. Kindly login and try again',
           };
-          this.storageService.set(this.storageService.AUTH_TOKEN_KEY, '');
-        }
-
-        if (error.status >= 400 || error.status < 500) {
+          this.storageService.remove(this.storageService.AUTH_TOKEN_KEY);
+          this.notificationService.notfiyError(errorResponse.message);
+        }else if (error.status >= 400 || error.status < 500) {
           errorResponse = {
             code: -1,
             message: error.error.message || 'An error occurred please try again or contact support',

@@ -22,23 +22,19 @@
       <div *ngIf="selectedTab === 'card'" class="card-payment">
         <!-- Saved Cards -->
         <div class="saved-cards">
-          <label
+          <div
             *ngFor="let card of savedCards; let i = index"
             class="saved-card"
+            [ngClass]="{'active-card': selectedCardIndex === i}"
+            (click)="selectCard(i)"
           >
-            <input
-              type="radio"
-              name="selectedCard"
-              [value]="card"
-              [checked]="selectedCardIndex === i"
-              (change)="selectCard(i)"
-            />
+          
             <img src="assets/card.png" alt="Card Logo" />
             <div>
               <p>{{ card.cardType }}</p>
               <small>{{ card.cardNumber }}</small>
             </div>
-          </label>
+          </div>
         </div>
   
         <!-- Add New Card -->

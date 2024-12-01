@@ -58,6 +58,7 @@ export class TicketPaymentComponent implements OnInit {
       this.router.navigate(['/movie']);
     }
     this.seatList = this.chosenSeats.map(seat => seat.seat).join(', ');
+    this.getBalance();
 
   }
 
@@ -100,8 +101,8 @@ export class TicketPaymentComponent implements OnInit {
       seatIds: this.chosenSeats.map(seat => seat.id),
       refundCode: this.discountCode,
       email: $event.email,
-      price: this.movie.moviePrice * this.chosenSeats.length,
-      paymentReference: $event.reference
+      price: this.balance,
+      paymentReference: $event.paymentReference
     
     }
 
@@ -110,7 +111,7 @@ export class TicketPaymentComponent implements OnInit {
       this.notification.notfiySuccess('Ticket booked successfully');
 
       interval(5000).subscribe(() => {
-      this.notification.notfiySuccess('Ticket code: ' + resp.data.ticketCode);
+      this.notification.notfiySuccess('Ticket code: ' + resp.data.code);
       this.router.navigate(['/']);
       });
       
@@ -118,7 +119,7 @@ export class TicketPaymentComponent implements OnInit {
   }
   
 getBalance() {
-  const balance = this.movie.moviePrice * this.chosenSeats.length - this.promoCodeDiscount; 
+  const balance = (this.movie.moviePrice * this.chosenSeats.length) - this.promoCodeDiscount; 
   this.balance =   balance ? balance : 0;
 }
 

@@ -6,6 +6,7 @@ import { PaymentService } from '../../pages/ticket/service/payment.service';
 import { Card } from '../service/model';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
+import { LocalStorageService } from '../service/local-storage.service';
 
 @Component({
   selector: 'app-payment',
@@ -19,7 +20,7 @@ export class PaymentComponent implements OnInit {
 
   selectedTab: string = 'card'; // Default tab
   showAddCardForm: boolean = false;
-  selectedCardIndex: number | null = null;
+  selectedCardIndex: number = -1;
   isModalOpen: boolean = false;
   useCase: string = '';
   amount: number = 0;
@@ -30,7 +31,8 @@ export class PaymentComponent implements OnInit {
 
   constructor(private router: Router, private fb: FormBuilder,
     private notificationService: NotificationService,
-    private authService: AuthService, private paymentService: PaymentService) {
+    private authService: AuthService, private paymentService: PaymentService,
+     private localStorageService: LocalStorageService) { 
 
       
   }
@@ -49,6 +51,7 @@ export class PaymentComponent implements OnInit {
   }
   retrieveSavedCards() {
 
+   
     if (!this.authService.isUserLoggedIn()) {
       return;
     }
@@ -80,20 +83,23 @@ export class PaymentComponent implements OnInit {
     this.selectedCardIndex = this.savedCards.length - 1; // Select the new card
     this.showAddCardForm = false;
     this.addCardForm.reset();
+    
   }
 
 
   selectCard(index: number): void {
+    console.log(index);
     this.selectedCardIndex = index;
   }
 
   proceedToNextStep(): void {
     let card: Card;
-    if (this.selectedCardIndex === null) {
+  
+    if (this.selectedCardIndex != null || this.selectedCardIndex !== -1) {
       card = this.savedCards[this.selectedCardIndex];
     }
 
-    console.log(this.addCardForm.valid, this.addCardForm.value);
+   
     if (!card && this.addCardForm.valid) {
     
       card = {
@@ -108,13 +114,18 @@ export class PaymentComponent implements OnInit {
     }
     
     
+
+    card=  {...card, amount: this.amount, useCase: this.useCase};
+   if(!card.email){
+      card.email = this.addCardForm.get('email').value || this.localStorageService.get(this.localStorageService.USER_EMAIL_KEY);
+   }
+    
+    
     this.paymentService.makePayment(card)
       .subscribe(resp => {
         this.notificationService.notfiySuccess('Payment Successful');
         this.closeModal();
-       
-
-        this.paymentEvent.emit({ ...resp.data, useCase: this.useCase, email: this.addCardForm.get('email').value });
+        this.paymentEvent.emit({ ...resp.data, useCase: this.useCase, email: card.email });
 
       });
 

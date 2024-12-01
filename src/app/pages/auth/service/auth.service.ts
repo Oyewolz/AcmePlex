@@ -28,7 +28,7 @@ export class AuthService {
 
 
   isUserLoggedIn() {
-   return this.localStorageService.get('token') ? true : false;
+   return this.localStorageService.get(this.localStorageService.AUTH_TOKEN_KEY) ? true : false;
   }
 
 }

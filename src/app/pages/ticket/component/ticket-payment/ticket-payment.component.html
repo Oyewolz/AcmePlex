@@ -31,9 +31,14 @@
         <span>Seat</span>
         <span>{{seatList}}</span>
       </div>
+      <div class="summary-item">
+        <span>{{'Ticket (' + chosenSeats.length +')'}} </span>
+        <span>{{movie.moviePrice *  chosenSeats.length }}</span>
+      </div>
+
       <div *ngIf="promoCodeDiscount!==0 " class="summary-item">
         <span>Promo Code </span>
-        <span>{{movie.moviePrice}}</span>
+        <span>{{promoCodeDiscount}}</span>
       </div>
 
       <div class="summary-item">

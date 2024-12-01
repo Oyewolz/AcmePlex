@@ -19,7 +19,7 @@ export class PaymentService {
   }
 
   getSavedCards(): Observable<any> {
-    const url = environment.apiUrl + '/payment/saved-cards';
+    const url = environment.apiUrl + '/payment/cards';
     return this.restService.get(url);
   }
 
@@ -32,4 +32,9 @@ export class PaymentService {
 
   }
 
+
+  refundPayment(): Observable<any> {
+    const url = environment.apiUrl + '/refund';
+    return this.restService.post(url, {});
+  }
 }

@@ -17,5 +17,7 @@ export class Card {
     expiryDate: string;
     cvv: string;
     useCase: string;
+    amount: number; 
+    email: string;
   }
   

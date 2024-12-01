@@ -99,12 +99,11 @@
   
     .carousel-indicators {
       position: absolute;
-      bottom: 10px;
-      left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 10px;
-  
+      bottom: -14px;
+      left: 33%;
       span {
         width: 10px;
         height: 10px;
