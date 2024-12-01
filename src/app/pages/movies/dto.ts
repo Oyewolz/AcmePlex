@@ -20,6 +20,9 @@ export class TheatreDto {
 export class ShowTimeDto{
     id: number = 0;
     startTime: string = '';
+    movie: MovieDto; 
+    theatre: TheatreDto;
+    
 }
 
 export class SeatDto {

@@ -1,43 +1,71 @@
 import { Component, OnInit } from '@angular/core';
+import { TicketDetails } from '../../model.dto';
+import { TicketService } from '../../service/ticket.service';
+import { LocalStorageService } from '../../../../shared/service/local-storage.service';
+import { NotificationService } from '../../../../shared/service/notification.service';
 
 @Component({
   selector: 'app-my-tickets',
   templateUrl: './my-tickets.component.html',
   styleUrls: ['./my-tickets.component.scss']
 })
-export class MyTicketsComponent {
+export class MyTicketsComponent implements OnInit{
 
-  tickets = [
-    {
-      id: 1,
-      movie: 'Lift',
-      time: '13h15m - 13.01.2024',
-      location: 'University District',
-      image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',
-      cancelable: false,
-    },
-    {
-      id: 2,
-      movie: 'Venom: The Last Dance',
-      time: '16h50m - 25.10.2024',
-      location: 'University District',
-      image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',
-      cancelable: false,
-    },
-    {
-      id: 3,
-      movie: 'Red One',
-      time: '12h10m - 20.11.2024',
-      location: 'University District',
-      image: 'https://images.unsplash.com/photo-1497215641119-bbe6d71ebaae?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDExOHx8dXNpbmclMjBjb21wdXRlcnxlbnwwfHx8fDE3MzAxNzY1Mjd8MA&ixlib=rb-4.0.3&w=1400',
-      cancelable: true,
-    },
-  ];
 
-  cancelTicket(ticketId: number) {
+  searchTerm: string = '';
+  email: string = '';
+  tickets: TicketDetails[] = [];
+
+
+constructor(private ticketService: TicketService, 
+  private localStorageService : LocalStorageService, 
+private notification:  NotificationService) { }
+
+  ngOnInit(): void {
+    
+    if (this.localStorageService.get(this.localStorageService.AUTH_TOKEN_KEY)) {
+      this.email = this.localStorageService.get(this.localStorageService.USER_EMAIL_KEY);
+      this.ticketService.getTickets().subscribe((resp) => {
+      this.tickets = resp.data;
+    });
+  }
+
+
+  }
+  cancelTicket(ticketId: number,  code: string) {
     if (confirm('Are you sure you want to cancel this ticket?')) {
       this.tickets = this.tickets.filter((ticket) => ticket.id !== ticketId);
+      this.ticketService.cancelTicket(code, this.email).subscribe(resp => {
+        console.log('Ticket cancelled successfully');
+        this.notification.notfiySuccess('Ticket cancelled successfully');
+
+      });
     }
   }
+
+  onKeyDown($event: KeyboardEvent) {
+    if ($event.key !== 'Enter' || !this.searchTerm) {
+      return;
+    }
+
+   
+    this.ticketService.getTicketByCode(this.searchTerm).subscribe((resp) => {
+    
+      const req = resp.data as TicketDetails;
+  
+      console.log('Ticket: ', req);
+      this.updateCancellationStatus(req);
+      this.tickets.push(req);
+
+    }); 
+
+
+  }
+  updateCancellationStatus(req: TicketDetails) {
+    req.cancelable = req.bookingStatus === 'RESERVED';
+  }
+
+
+
 
 }

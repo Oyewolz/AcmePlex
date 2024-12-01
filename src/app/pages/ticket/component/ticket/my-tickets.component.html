@@ -4,25 +4,44 @@
     <a routerLink="/tickets/payment"><i class="fas fa-arrow-left"></i></a>
   </div>
 
+
   <h1 class="page-title">Tickets</h1>
+
+   <!-- Search Block -->
+   <div class="search-block">
+    <input
+      type="text"
+      placeholder="Search by ticket code press enter to search"
+      [(ngModel)]="searchTerm"
+      (keydown)="onKeyDown($event)"
+    />
+  </div>
+  
 
   <div class="tickets-list">
     <!-- Ticket Card -->
     <div class="ticket-card" *ngFor="let ticket of tickets">
       <div class="ticket-info">
-        <img [src]="ticket.image" [alt]="ticket.movie" />
+        <img [src]="ticket.showtime.movie.movieImageUrl" [alt]="ticket.showtime.movie.movieName" />
         <div class="details">
-          <h2>{{ ticket.movie }}</h2>
-          <p><i class="fas fa-clock"></i> {{ ticket.time }}</p>
-          <p><i class="fas fa-map-marker-alt"></i> {{ ticket.location }}</p>
+          <h2>{{ ticket.showtime.movie.movieName }}</h2>
+          <p><i class="fas fa-clock"></i> {{ ticket.showtime.startTime  | date : 'EEE '}}</p> 
+         <p><i class="fas fa-map-marker-alt"></i> {{ ticket.showtime.theatre.location }}</p>
         </div>
       </div>
       <div class="ticket-actions">
-        <button class="view-receipt-btn">View Receipt</button>
-        <button *ngIf="ticket.cancelable" class="cancel-btn" (click)="cancelTicket(ticket.id)">
-           Cancel
-        </button>
-      </div>
+        
+        <div *ngIf="ticket.cancelable" class="cancel-section">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            [(ngModel)]="email"
+            class="email-input"
+          />
+          <button class="cancel-btn" [disabled]="!email" (click)="cancelTicket(ticket.id, ticket.code)">
+            Cancel
+          </button>
+        </div>
     </div>
   </div>
 </div>
