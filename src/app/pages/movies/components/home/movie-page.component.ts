@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MovieDto } from '../../dto';
 import { DataService } from '../../../../shared/service/data.service';
+import { MovieListComponent } from '../movie-list/movie-list.component';
 
 @Component({
   selector: 'app-movie-page',
@@ -10,8 +11,15 @@ import { DataService } from '../../../../shared/service/data.service';
 export class MoviePageComponent implements OnInit {
 
 
+
   selectedMovie: MovieDto | null = null;
-  movies : MovieDto[] = [];
+  movies: MovieDto[] = [];
+  movieName: string = null;
+
+  @ViewChild('movieList') movieListComponent!: MovieListComponent;
+
+
+
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -20,10 +28,21 @@ export class MoviePageComponent implements OnInit {
   handleMovieSelected($event: any) {
 
     this.selectedMovie = $event;
-}
-
-handleLoadedMovies($event: any) {
-  this.movies = $event;
   }
-  
+
+  handleLoadedMovies($event: any) {
+    this.movies = $event;
+  }
+
+  handleSearch($event: KeyboardEvent) {
+
+    console.log('Search: ', this.movieName);
+    if ($event.key !== 'Enter' || !this.movieName) {
+      console.log('Invalid search');
+      return;
+    }
+
+    this.movieListComponent.searchMovies(this.movieName);
+  }
+
 }

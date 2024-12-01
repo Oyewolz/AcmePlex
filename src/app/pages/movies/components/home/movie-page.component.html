@@ -2,12 +2,12 @@
 <div class="movies-page">
   <app-carousel [movies]="movies"></app-carousel>
   <div class="search-bar">
-    <input type="text" placeholder="Search" />
+    <input type="text" placeholder="Search" [(ngModel)]="movieName" (keydown)="handleSearch($event)" />
   </div>
   
   <app-theatre-selection *ngIf="selectedMovie"
     [movie]="selectedMovie"
 ></app-theatre-selection>
 
-  <app-movie-list (movieSelected)="handleMovieSelected($event)" (loadedMovies)="handleLoadedMovies($event)" ></app-movie-list>
+  <app-movie-list #movieList (movieSelected)="handleMovieSelected($event)" (loadedMovies)="handleLoadedMovies($event)" ></app-movie-list>
 </div>

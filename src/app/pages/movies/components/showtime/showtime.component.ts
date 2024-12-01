@@ -17,6 +17,7 @@ export class ShowtimeComponent implements OnInit {
   selectedShowtime: ShowTimeDto; 
   movie: MovieDto;
   theatreId: number;
+  currentDate: Date = new Date();
 
   constructor(private router: Router,private route: ActivatedRoute,
      private notificationService: NotificationService, 

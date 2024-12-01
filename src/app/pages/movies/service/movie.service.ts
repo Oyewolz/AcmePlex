@@ -12,8 +12,12 @@ export class MovieService {
   constructor(private restService: RestService) { }
 
 
-  getMovies(page: number , size: number =10): Observable<any> {
-    const url = environment.apiUrl + '/movie/fetch?page=' + page + '&size=' + size;
+  getMovies(searchTerm: string , page: number , size: number =10): Observable<any> {
+    
+    let url = environment.apiUrl + `/movie/fetch?&page=${page}&size=${size}`;
+    if(searchTerm ){
+      url = url + `&name=${searchTerm}`;
+    }
     return this.restService.get(url);
   }
 

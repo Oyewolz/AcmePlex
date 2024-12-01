@@ -57,12 +57,12 @@ export class SeatSelectionComponent  implements OnInit {
           return;
         }
 
+        this.seats = resp.data;
         const allSeatsTaken = this.seats.every(seat => seat.seatTaken);
+
         if (allSeatsTaken) {
           this.notification.notfiyError('All seats have been taken');
         }
-
-        this.seats = resp.data;
 
         this.seatRows = this.seats.reduce((acc, seat) => {
           if (!acc[seat.seatRow]) {
