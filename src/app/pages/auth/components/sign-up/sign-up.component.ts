@@ -42,7 +42,7 @@ export class SignUpComponent {
   }
 
   handlePayment(resp: any) {
-    const userCreationPayload = {...this.signUpForm.value, paymentReference : resp.paymentReference }; 
+    const userCreationPayload = {...this.signUpForm.value, paymentReference : resp.paymentReference, userType: 'REGISTERED_USER' }; 
     this.authService.register(userCreationPayload).subscribe(resp => {
       this.notificationService.notfiySuccess('Sign Up Successful');
       this.router.navigate(['/auth/sign-in']);

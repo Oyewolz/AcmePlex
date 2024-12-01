@@ -14,7 +14,8 @@
       </nav>
   
       <!-- Account Button -->
-      <button class="account-btn "routerLink="/auth/sign-in" >Account</button>
+      <button *ngIf="!isSignedIn()" class="account-btn "routerLink="/auth/sign-in" > Account</button>
+      <button *ngIf="isSignedIn()" class="account-btn" (click)="signOut()">Sign Out</button>
     </div>
     </div>
   </header>

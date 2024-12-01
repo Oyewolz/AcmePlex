@@ -14,8 +14,8 @@ export class TicketService {
 
 
   createTicket(req: TicketReq ):Observable<any> {
-    const url = environment.apiUrl +  '/ticket';;
-    return this.restService.get(url);
+    const url = environment.apiUrl +  '/ticket/issue';;
+    return this.restService.post(url, req);
   }
 
 
@@ -26,7 +26,7 @@ export class TicketService {
   } 
 
   getTickets(page: number = 0 , size: number = 20 ): Observable<any> {
-    const url = environment.apiUrl +  '/ticket/ ' + page + '&size=' + size;
+    const url = environment.apiUrl +  '/ticket/all?page=' + page + '&size=' + size;
     return this.restService.get(url);
   } 
 

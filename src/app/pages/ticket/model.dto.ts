@@ -4,7 +4,7 @@ export class TicketReq {
     email: string;
     refundCode: string;
     paymentReference: string;
-    showTimeId: number;
+    showtimeId: number;
     theatreId: number;
     seatIds: number[];
     price: number;

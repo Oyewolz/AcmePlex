@@ -7,6 +7,7 @@ import { PaymentService } from '../../service/payment.service';
 import { PaymentComponent } from '../../../../shared/payment/payment.component';
 import { TicketService } from '../../service/ticket.service';
 import { TicketReq } from '../../model.dto';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-payment',
@@ -14,6 +15,7 @@ import { TicketReq } from '../../model.dto';
   styleUrls: ['./ticket-payment.component.scss']
 })
 export class TicketPaymentComponent implements OnInit {
+
 
 
 
@@ -25,6 +27,8 @@ export class TicketPaymentComponent implements OnInit {
   discountCode: string = '';
   validatedPromoCode: boolean = false;
   promoCodeDiscount: number = 0;
+ balance: number = 0;
+
 
   @ViewChild(PaymentComponent) paymentComponent: PaymentComponent;
 
@@ -75,7 +79,8 @@ export class TicketPaymentComponent implements OnInit {
         this.notification.notfiyError('Invalid promo code');
         return;
       }
-      this.promoCodeDiscount = resp.data.discount;
+      this.promoCodeDiscount = resp.data.balance;
+      this.getBalance();
 
       this.validatedPromoCode = true; 
       this.notification.notfiySuccess('Promo code applied successfully');
@@ -87,9 +92,11 @@ export class TicketPaymentComponent implements OnInit {
 
   handlePayment($event: any) {
 
+    console.log('Payment event: ', $event);
+
     const ticket:TicketReq  = {
       theatreId: this.theatre.id,
-      showTimeId: this.showtime.id,
+      showtimeId: this.showtime.id,
       seatIds: this.chosenSeats.map(seat => seat.id),
       refundCode: this.discountCode,
       email: $event.email,
@@ -101,10 +108,18 @@ export class TicketPaymentComponent implements OnInit {
     this.ticektService.createTicket(ticket)  
     .subscribe(resp => {
       this.notification.notfiySuccess('Ticket booked successfully');
+
+      interval(5000).subscribe(() => {
+      this.notification.notfiySuccess('Ticket code: ' + resp.data.ticketCode);
       this.router.navigate(['/']);
+      });
+      
     });
   }
   
-
+getBalance() {
+  const balance = this.movie.moviePrice * this.chosenSeats.length - this.promoCodeDiscount; 
+  this.balance =   balance ? balance : 0;
+}
 
 }

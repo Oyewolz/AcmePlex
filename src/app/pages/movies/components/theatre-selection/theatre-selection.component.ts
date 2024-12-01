@@ -25,7 +25,7 @@ export class TheatreSelectionComponent implements OnChanges {
   theatres: TheatreDto[] = [];
 
   // Selected theater
-  selectedTheatre: string | null = null;
+  selectedTheatre: number = null;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['movie'] && this.movie) {
@@ -54,7 +54,11 @@ export class TheatreSelectionComponent implements OnChanges {
   getTicket() {
     if (this.selectedTheatre) {
 
-      this.dataService.setData( { movie: this.movie, theatre: this.selectedTheatre } );
+      console.log('Selected Theatre: ', this.selectedTheatre);
+      const value = this.theatres.find(item => this.selectedTheatre == item.id);
+
+      console.log('Selected Theatre: ', value);
+      this.dataService.setData( { movie: this.movie, theatre:  value} );
 
       this.router.navigate(['/movie/theatre/showtime']);
     }

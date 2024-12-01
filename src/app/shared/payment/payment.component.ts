@@ -88,7 +88,7 @@ export class PaymentComponent implements OnInit {
   }
 
   proceedToNextStep(): void {
-    let card;
+    let card: Card;
     if (this.selectedCardIndex === null) {
       card = this.savedCards[this.selectedCardIndex];
     }
@@ -97,7 +97,7 @@ export class PaymentComponent implements OnInit {
     if (!card && this.addCardForm.valid) {
     
       card = {
-        ...this.addCardForm.value, useCase: this.useCase, amount:  this.amount
+        ...this.addCardForm.getRawValue(), useCase: this.useCase, amount:  this.amount, cardType: 'CREDIT_CARD'
       };
     }
 
@@ -106,13 +106,15 @@ export class PaymentComponent implements OnInit {
       this.notificationService.notfiyError('Please provide a valid card');
       return;
     }
-
+    
+    
     this.paymentService.makePayment(card)
       .subscribe(resp => {
         this.notificationService.notfiySuccess('Payment Successful');
         this.closeModal();
+       
 
-        this.paymentEvent.emit({ ...resp.data, useCase: this.useCase });
+        this.paymentEvent.emit({ ...resp.data, useCase: this.useCase, email: this.addCardForm.get('email').value });
 
       });
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../shared/service/notification.service';
 import { MovieService } from '../../service/movie.service';
-import { MovieDto, ShowTimeDto } from '../../dto';
+import { MovieDto, ShowTimeDto, TheatreDto } from '../../dto';
 import { DataService } from '../../../../shared/service/data.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ShowtimeComponent implements OnInit {
   showtimes: ShowTimeDto[] = [];
   selectedShowtime: ShowTimeDto; 
   movie: MovieDto;
-  theatreId: number;
+  theatre: TheatreDto;
   currentDate: Date = new Date();
 
   constructor(private router: Router,private route: ActivatedRoute,
@@ -32,7 +32,7 @@ export class ShowtimeComponent implements OnInit {
     if (data) {
       console.log("navigation -= what identified 2 ", data);
       this.movie = data['movie'];
-      this.theatreId = data['theatre'];
+      this.theatre = data['theatre'];
       this.fetchShowtimes();
       
     }else{
@@ -43,7 +43,7 @@ export class ShowtimeComponent implements OnInit {
   }
 
   fetchShowtimes() {
-    this.movieService.getShowTimesByMovieIdAndTheatreId(this.movie.id, this.theatreId, this.page, this.size)
+    this.movieService.getShowTimesByMovieIdAndTheatreId(this.movie.id, this.theatre.id, this.page, this.size)
     .subscribe((resp) => {
       if (!resp.data) {
         this.notificationService.notfiyError('No showtimes found for this movie');
@@ -61,7 +61,7 @@ export class ShowtimeComponent implements OnInit {
 
   goToSeatSelection() {
     if (this.selectedShowtime) {
-      this.dataService.setData({ movie: this.movie, showtime: this.selectedShowtime, theatre: this.theatreId });
+      this.dataService.setData({ movie: this.movie, showtime: this.selectedShowtime, theatre: this.theatre });
       this.router.navigate(['movie/theatre/showtime/seat']);
     }
   }
