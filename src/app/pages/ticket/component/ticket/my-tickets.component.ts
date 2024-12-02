@@ -27,6 +27,9 @@ private notification:  NotificationService) { }
       this.email = this.localStorageService.get(this.localStorageService.USER_EMAIL_KEY);
       this.ticketService.getTickets().subscribe((resp) => {
       this.tickets = resp.data;
+      this.tickets.forEach((ticket) => {
+        this.updateCancellationStatus(ticket);  
+      });
     });
   }
 

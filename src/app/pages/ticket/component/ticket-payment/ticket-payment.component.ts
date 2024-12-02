@@ -63,7 +63,7 @@ export class TicketPaymentComponent implements OnInit {
   }
 
   proceedToPayment() {
-    
+
     this.paymentComponent.openModel('TICKET', this.movie.moviePrice * this.chosenSeats.length );
 
   }
@@ -74,6 +74,7 @@ export class TicketPaymentComponent implements OnInit {
       this.notification.notfiyError('Please enter a discount code');
       return; 
     }
+    
 
     this.payment.validatePromoCode(this.discountCode).subscribe(resp => {
       if(!resp.data) {
@@ -120,7 +121,7 @@ export class TicketPaymentComponent implements OnInit {
   
 getBalance() {
   const balance = (this.movie.moviePrice * this.chosenSeats.length) - this.promoCodeDiscount; 
-  this.balance =   balance ? balance : 0;
+  this.balance =   balance > 0   ? balance : 0;
 }
 
 }

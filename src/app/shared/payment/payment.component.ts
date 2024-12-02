@@ -40,7 +40,7 @@ export class PaymentComponent implements OnInit {
 
     this.addCardForm = this.fb.group({
       cardHolderName: ['', [Validators.required, Validators.minLength(3)]],
-      cardNumber: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(19), Validators.pattern('^[0-9]*$')]],
+      cardNumber: ['', [Validators.required, Validators.minLength(13)]],
       expiryDate: ['', [Validators.required]],
       cvv: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -100,7 +100,7 @@ export class PaymentComponent implements OnInit {
     }
 
    
-    if (!card && this.addCardForm.valid) {
+    if (!card) {
     
       card = {
         ...this.addCardForm.getRawValue(), useCase: this.useCase, amount:  this.amount, cardType: 'CREDIT_CARD'

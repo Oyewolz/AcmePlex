@@ -18,6 +18,7 @@ export class CarouselComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+
     this.updateVideoUrl();
   }
 
@@ -25,9 +26,18 @@ export class CarouselComponent implements OnInit {
     if (this._movies.length === 0) {
       return;
     }
+
+    this.shuffleMovies();
     this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.movies[this.currentIndex].movieTrailer + '&autoplay=1&mute=0'
     );
+  }
+
+  shuffleMovies(): void {
+    for (let i = this.movies.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.movies[i], this.movies[j]] = [this.movies[j], this.movies[i]];
+    }
   }
 
   prevMovie(): void {
