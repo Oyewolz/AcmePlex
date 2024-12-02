@@ -7,7 +7,7 @@ import { PaymentService } from '../../service/payment.service';
 import { PaymentComponent } from '../../../../shared/payment/payment.component';
 import { TicketService } from '../../service/ticket.service';
 import { TicketReq } from '../../model.dto';
-import { interval } from 'rxjs';
+import { interval, take } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-payment',
@@ -110,7 +110,7 @@ export class TicketPaymentComponent implements OnInit {
     .subscribe(resp => {
       this.notification.notfiySuccess('Ticket booked successfully');
 
-      interval(5000).subscribe(() => {
+      interval(1000).pipe(take(1)).subscribe(() => {
       this.notification.notfiySuccess('Ticket code: ' + resp.data.code);
       this.router.navigate(['/']);
       });

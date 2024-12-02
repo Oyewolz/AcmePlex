@@ -95,7 +95,7 @@ export class PaymentComponent implements OnInit {
   proceedToNextStep(): void {
     let card: Card;
   
-    if (this.selectedCardIndex != null || this.selectedCardIndex !== -1) {
+    if (this.selectedCardIndex != null && this.selectedCardIndex !== -1) {
       card = this.savedCards[this.selectedCardIndex];
     }
 

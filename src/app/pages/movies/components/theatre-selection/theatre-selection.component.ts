@@ -3,7 +3,7 @@ import { MovieDto, TheatreDto } from '../../dto';
 import { Router } from '@angular/router';
 import { MovieService } from '../../service/movie.service';
 import { NotificationService } from '../../../../shared/service/notification.service';
-import { interval } from 'rxjs';
+import { interval, take } from 'rxjs';
 import { DataService } from '../../../../shared/service/data.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class TheatreSelectionComponent implements OnChanges {
       if (!resp.data) {
         this.notificationService.notfiyError('No theaters found for this movie');
 
-        interval(1000).subscribe(() => {
+        interval(1000).pipe(take(1)).subscribe(() => {
           this.movie = null;
         });
         return;
